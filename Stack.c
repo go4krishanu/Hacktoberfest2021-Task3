@@ -1,109 +1,71 @@
 #include <stdio.h>
-#include <stdlib.h>
-//Global Variable
-int size,choice,ele;
 
+int MAXSIZE = 8;       
+int stack[8];     
+int top = -1;            
 
-//Creating Stack
-struct stack{
-    int arr[100];
-    int top;
+int isempty() {
 
-}st;
+   if(top == -1)
+      return 1;
+   else
+      return 0;
+}
+   
+int isfull() {
 
-//Inserting Element
-void push(int element)
-{
-    if((st.top)==size)
-    {
-        printf("\n Stack is Full");
-    }
-    else
-    {
-        st.top--;
-        printf("\nEnter a Value ");
-        scanf("%s",&ele);
-        st.arr[st.top]=ele;
-    }
+   if(top == MAXSIZE)
+      return 1;
+   else
+      return 0;
 }
 
-//Removing Element
-int pop()
-{
-    if((st.top)==-1)
-    {
-        printf("\nStack is Empty");
-    }
-    else
-    {
-        int out;
-        out=st.arr[st.top];
-        st.top++;
-        return out;
-    }
+int peek() {
+   return stack[top];
 }
 
-//Peek
-int peek()
-{
-    int display;
-    display=st.arr[st.rear];
-    return display;
+int pop() {
+   int data;
+	
+   if(!isempty()) {
+      data = stack[top];
+      top = top - 1;   
+      return data;
+   } else {
+      printf("Could not retrieve data, Stack is empty.\n");
+   }
 }
 
-//Display Stack
-void display()
-{
-    if((st.top)>=0)
-    {
-        printf("\n\nElements in the Stack");
-        for(i=st.top;i>=0;i++)
-        {
-            printf("\n%d",st.arr[i]);
-        }
-    }
-    else
-    {
-        printf("No elements to Display");
-    }
+int push(int data) {
+
+   if(!isfull()) {
+      top = top + 1;   
+      stack[top] = data;
+   } else {
+      printf("Could not insert data, Stack is full.\n");
+   }
 }
 
-int main()
-{
-    st.top=-1;
-    printf("Enter a Stack size less than 100 : ");
-    scanf("%d",&size);
-    printf("\nStack Operations.....");
-    printf("\n\t 1.PUSH\n\t 2.POP\n\t 3.PEEK\n\t 4.DISPLAY\n\t 5.EXIT");
+int main() {
+   // push items on to the stack 
+   push(3);
+   push(5);
+   push(9);
+   push(1);
+   push(12);
+   push(15);
 
-    do{
-        printf("\nEnter Your Choice  ");
-        scanf("%c",&choice);
-        switch(choice)
-        {
-        case 1:
-            {
-                push(ele);break;
-            }
-        case 2:
-            {
-                printf("%d",pop());
-            }
-        case 3:
-            {
-                printf("%d",peek());
-            }
-        case 4:
-            {
-                display();break;
-            }
-        case 5:
-            {
-                printf("\n\t EXIT Point");break;
-            }
-        default:
-            printf("\nEnter a correct choice (1,2,3,4,5)");
-        }
-    }while(choice=5);
-    return 0;
+   printf("Element at top of the stack: %d\n" ,peek());
+   printf("Elements: \n");
+
+   // print stack data 
+   while(!isempty()) {
+      int data = pop();
+      printf("%d\n",data);
+   }
+
+   printf("Stack full: %s\n" , isfull()?"true":"false");
+   printf("Stack empty: %s\n" , isempty()?"true":"false");
+   
+   return 0;
 }
